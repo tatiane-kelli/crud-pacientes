@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import Content from "../components/content";
+import Content from "../components/contentWrap";
 import { Grid } from "@mui/material";
 import Title from "../components/title";
-import Input from "../components/Input"; //criar
+import Input from "../components/input";
 import Button from "../components/button";
-import DataPicker from "../components/datapicker";  //criar
+import DatePicker from "../components/datepicker";
 import history from "../services/history";
 import api from "../services/api";
 import { useSnackbar } from "notistack";
 
-const AddPatient = () => {
+export const AddPatient = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     name: null,
@@ -99,7 +99,7 @@ const AddPatient = () => {
               />
             </Grid>
             <Grid item xs={12} md={4} lg={4}>
-              <DataPicker
+              <DatePicker
                 label="Data de Nascimento"
                 value={data.birth_date}
                 onChange={(ev) => setData({ ...data, birth_date: ev })}
