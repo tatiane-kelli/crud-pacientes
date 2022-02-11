@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Button from "../components/button";
 import Input from "../components/input";
 import Content from "../components/contentWrap";
@@ -26,6 +26,7 @@ import {
 export const ListPatients = () => {
   const [remove, setRemove] = useState(false);
   const [idPatient, setIdPatient] = useState(null);
+  const [search, setSearch] = useState('');
 
   const editPatient = (id) => {
     history.push({
@@ -39,6 +40,10 @@ export const ListPatients = () => {
     setIdPatient(id);
   };
 
+  const filteredSearch = useMemo(() => {
+    return patients.filter((patient) => patient.toLowerCase().includes(search.toLocaleLowerCase()));
+  }, [search])
+
   return (
     <>
       <Grid container spacing={2}>
@@ -49,7 +54,12 @@ export const ListPatients = () => {
           />
         </Grid>
         <Grid item xs={12} md={8} lg={8}>
-          <Input label="Pesquisar" placeholder="Digite o nome do paciente" />
+          <Input 
+            label="Pesquisar" 
+            placeholder="Digite o nome do paciente" 
+            value={search}
+            onChange = {(ev) => setSearch(ev.target.value)}
+          />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
           <Content>
@@ -71,6 +81,43 @@ export const ListPatients = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
+                    {filteredSearch.map((patient) => {
+                      <TableRow key={i}>
+                        <TableCell>{patient.name}</TableCell>
+                        <TableCell>{patient.cpf}</TableCell>
+                        <TableCell>{patient.sex}</TableCell>
+                        <TableCell>
+                          {patient.birth_date ? (
+                            <Moment format="DD/MM/YYYY">
+                              {patient.birth_date}
+                            </Moment>
+                          ) : null}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                        <Flex>
+                          <Actions
+                            edit
+                            onClick={() => editPatient(patient.id)}
+                          >
+                            <IconEdit />
+                          </Actions>
+                          <Actions
+                            removePatient
+                            onClick={() => deletePatient(patient.id)}
+                          >
+                            <IconRemove />
+                          </Actions>
+                        </Flex>
+                      </TableCell>
+                    </TableRow>
+                    }
+                    
+                    )}
                     {patients && patients.data && patients.data.length
                       ? (patients.data
                         ).map((row, i) => (
