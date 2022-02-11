@@ -14,11 +14,11 @@ export const MenuItem = styled.div`
     active &&
     `
      color: #2f4cdd !important;
-    background-color: #dcdcdc47;
+    background-color: #84C4DB;
   `}
   &:hover {
     color: #2f4cdd !important;
-    background-color: #dcdcdc47;
+    background-color: #84C4DB;
   }
 `;
 
