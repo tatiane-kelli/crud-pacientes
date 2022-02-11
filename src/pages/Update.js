@@ -59,7 +59,7 @@ const UpdatePatient = ({ ...props }) => {
             <Grid item xs={12} md={6} lg={6}>
               <Input
                 label="Nome"
-                placeholder="Sasha Braus"
+                placeholder="Maria Soares"
                 required={true}
                 value={data.name}
                 onChange={(ev) => setData({ ...data, name: ev.target.value })}

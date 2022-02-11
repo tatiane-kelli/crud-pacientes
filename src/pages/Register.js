@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Content from "../components/contentWrap";
 import { Grid } from "@mui/material";
 import Title from "../components/title";
@@ -7,10 +7,14 @@ import Button from "../components/button";
 import DatePicker from "../components/datepicker";
 import history from "../services/history";
 import api from "../services/api";
+import axios from "axios";
 import { useSnackbar } from "notistack";
 
 export const AddPatient = () => {
   const [loading, setLoading] = useState(false);
+  const [cpfSituation, setCpfSituation] = useState(null);
+  const [validateCpf, setValidateCpf] = useState([]);
+  const [cpf, setCpf] = useState(false);
   const [data, setData] = useState({
     name: null,
     birth_date: null,
@@ -20,6 +24,36 @@ export const AddPatient = () => {
   });
 
   const { enqueueSnackbar } = useSnackbar();
+
+  const getValidationCpf = async () => {
+    try {
+      const requireCpfData = await axios.get(
+        `https://api.cpfcnpj.com.br/5ae973d7a997af13f0aaf2bf60e65803/8/${cpf}`
+      );
+      console.log(requireCpfData);
+      if (requireCpfData.data.situacao === "Regular") {
+        setCpfSituation(true);
+        setValidateCpf(requireCpfData.data);
+      }
+    } catch (e) {
+      setCpfSituation(true);
+    }
+  };
+  
+  useMemo(() => {
+    if (cpf.length === 11) {
+      getValidationCpf();
+    }
+  }, [cpf]);
+
+  useMemo(() => {
+    setData({
+      name: null,
+      birth_date: validateCpf.nascimento,
+      cpf: validateCpf.cpf,
+      status: validateCpf.status === 1 ? true : false,
+    });
+  }, [validateCpf]);
 
   const savePatient = async (ev) => {
     ev.preventDefault();
@@ -63,7 +97,7 @@ export const AddPatient = () => {
             <Grid item xs={12} md={6} lg={6}>
               <Input
                 label="Nome completo"
-                placeholder="Maria Fritz"
+                placeholder="Maria Soares"
                 required={true}
                 value={data.name}
                 onChange={(ev) => setData({ ...data, name: ev.target.value })}
