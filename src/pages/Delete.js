@@ -10,7 +10,7 @@ import {
   Space,
 } from "./styles";
 
-const DeletePatient = ({ open, close, id }) => {
+export const DeletePatient = ({ open, close, id }) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const deleteAPatient = async () => {

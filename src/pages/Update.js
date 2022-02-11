@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React, { useState } from "react";
-import Content from "../components/content";
+import Content from "../components/contentWrap";
 import { Grid } from "@mui/material";
 import Title from "../components/title";
 import Input from "../components/input";
@@ -10,7 +10,7 @@ import history from "../services/history";
 import api from "../services/api";
 import { useSnackbar } from "notistack";
 
-const UpdatePatient = ({ ...props }) => {
+export const UpdatePatient = ({ ...props }) => {
   const [data, setData] = useState({
     name: patients.data?.name,
     cpf: patients.data?.cpf,

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Button from "../components/button";
 import Input from "../components/input";
-import Content from "../components/content";
+import Content from "../components/contentWrap";
 import Title from "../components/title";
 import history from "../services/history";
 import Moment from "react-moment";
@@ -23,7 +23,7 @@ import {
   IconEdit,
 } from "./styles";
 
-const Member = () => {
+export const ListPatients = () => {
   const [remove, setRemove] = useState(false);
   const [idPatient, setIdPatient] = useState(null);
 
@@ -122,4 +122,4 @@ const Member = () => {
   );
 };
 
-export default Member;
+export default ListPatients;
